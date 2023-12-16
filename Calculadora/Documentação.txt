@@ -1,0 +1,103 @@
+
+Não foram usadas bibliotecas além das padrões, disponibilizadas na própria instalação do gcc.
+
+// ListaT.h
+
+A lista de termos tem uma peculiaridade. Como foi pedido para uma lista reinicializar uma lista com o termo 0x^0, nossa lista sempre tem pelo menos um termo durante a execução(o termo independente), por isso, as funções tiveram que ser feitas considerando essa escolha. A única função que contradiz essa escolha é limparT, que realmente elimina todos os nós da lista, o que é útil para quando se deseja fazer a destruição de um polinômio. Algumas operações, como a leitura e escrita do arquivo e a função somarPolT, por exemplo, foram beneficiadas com essa escolha, em que não ter uma lista verdadeiramente vazia simplifica essas operações. 
+
+Função: ListaT *criarT();
+Descrição: Cria a lista de termos, inicializando um termo com coeficiente e expoente 0. 
+
+Função:void limparT(ListaT *l);
+Descrição: Limpa a lista de termos, desalocando todos os nós da mesma.
+
+Função: int reinicializar(ListaT *l); 
+Descrição: Limpa a lista de termos do polinômio e insere um termo no formato 0x^0. Retorna 2 se a lista for nula, 1 se a lista for vazia e 0 se a função foi executada com sucesso. 
+
+Função: listaVaziaT(ListaT *l);
+Descrição: Verifica se a lista de termos só possui o termo 0x^0, portanto, sendo vazia para o programa. Retorna 2 se a lista for nula, 0 se a lista for vazia e 1 se a lista não for vazia. 
+
+Função: int inserirNovo(ListaT *l, Termo it);
+Descrição: Insere, em ordem decrescente de expoente, um novo termo à lista de termos do polinômio, a lista sempre está ordenada por causa disso. Particularmente, a inserção de um termo independente é feito como um caso à parte, pois se deseja atualizar o termo 0x^0 da lista. Retorna 2 se a lista for nula, 3 se o coeficiente inserido for nulo e 0 se a função foi executada com sucesso. 
+
+Função:int inserirIncrementar(ListaT *l, Termo it);
+Descrição: Insere o termo do expoente dado na posição correspondente, incrementando os índices dos termos posteriores. Retorna 2 se a lista for nula, 1 se a lista for vazia e 0 se a função foi executada com sucesso. 
+
+Função: int somarValor(ListaT *l, Termo it);
+Descrição: Insere um novo termo a lista de termos de dado polinômio, se já houver um termo com o mesmo expoente, soma-se os coeficientes. Retorna 2 se a lista for nula, 1 se a lista for vazia ou se não houver um termo com o expoente inserido para ser somado e 0 se a função foi executada com sucesso. 
+
+Função: int substituir(ListaT *l, Termo it);
+Descrição: Substitui o termo existente de um dado expoente por outro termo de mesmo expoente passado pelo usuário. Retorna 2 se a lista for nula, 0 se a função foi executada com sucesso e 1 se a lista for vazia ou se não houver um termo com o expoente inserido para ser substituído. 
+
+Função: void mostrarT(ListaT *l);
+Descrição: Mostra a lista de termos formatada em ordem decrescente de expoente.  
+
+Função: int removerInicioT(ListaT *l);
+Descrição: Remove o termo de maior expoente da lista de termos. Retorna 2 se a lista for nula, 1 se a lista for vazia e 0 se a função foi executada com sucesso.
+
+Função: int removerFimT(ListaT *l);
+Descrição: Zera o termo independente. Retorna 2 se a lista for nula, 1 se a lista for vazia e 0 se a função foi executada com sucesso.
+
+Função: int removerExp(ListaT *l, int pos);
+Descrição: Remove da lista de termos, o termo de expoente igual ao passado pelo usuário. Caso se deseje remover o termo independente, este é zerado, já que a lista sempre tem o termo independente. Retorna 2 se a lista for nula, 1 se a lista for vazia, 0 se a função foi executada com sucesso e 3 se não existir, na lista ,um termo de mesmo expoente passado pelo usuário.
+
+Função: int contemExp(ListaT *l, int exp);
+Descrição: Analisa se existe um termo com o expoente passado pelo usuário. Retorna 2 se a lista for nula, 1 se a lista for vazia, 0 se a função foi executada com sucesso e 3 se a lista não conter o termo de expoente passado pelo usuário ou o coeficiente do termo for nulo.
+
+Função: int buscarPosicaoT(ListaT *l, int pos, Termo *ret);
+Descrição: Retorna por referência o termo referente a posição dada pelo usuário. Retorna 1 se a lista for nula, 0 se a função foi executada com sucesso e 2 se a lista for menor que o número de posições dada pelo usuário.
+
+Função: int buscarCoef(ListaT *l, int exp, int *ret);
+Descrição: Busca na lista de termos o coeficiente referente ao expoente passado pelo usuário e o retorna por referência. Retorna 2 se a lista for nula, 1 se a lista for vazia, 0 se a função for executada com sucesso e 3 se o expoente não existir.
+
+Função: int somarPolT(ListaT *l1, ListaT *l2, ListaT *ret);
+Descrição:  Retorna 2 se uma das listas passadas não for criada. Se uma das listas para soma for vazia, copia para a lista de retorno a outra lista e retorna 1. A partir de verificações, começa do maior expoente entre os polinômios e vai em ordem decrescente navegando pelos termos de ambos os polinômios e inserindo os termos no polinômio de retorno. Quando esses termos são iguais, insere a soma deles no polinômio de retorno. Como todo polinômio tem implicitamente o termo 0x^0, ambos chegarão em NULL juntas, tendo passado a soma de todos os termos e retornando 0. 
+
+Função: int calcPx(ListaT *l, float x, float *ret);
+Descrição: Essa função itera para todos os elementos da lista, adicionando a uma variável o valor que um termo adiciona ou subtrai para a soma total do polinômio. Retorna 2 se a lista for nula, 1 se a lista for vazia e 0 se a função foi executada com sucesso.
+
+Função: float pot(int exp, float base);
+Descrição: retorna o valor de base^exp.
+
+Função: float mod(float x);
+Descrição: retorna o módulo de um float.
+
+// ListaP.h
+
+Função: int buscarNome(ListaP *l, int pos, char *ret);
+Descrição: char *ret recebe o nome do polinômio de uma dada posição. Retorna 0 para sucesso, e 1, 2, 3 para erros.
+
+Função: int buscarPosicao(ListaP *l, char *str);
+Descrição: Retorna a posição de um polinômio dado um certo nome em caso de sucesso. Retorna -2 para falha na busca e -1 para lista não criada.
+
+Função: int somarPol(ListaP *l, char *str1, char *str2, char *res);
+Descrição: Através dos nomes recebidos, acessa a posição dos polinômios e passa para a função somarPolT(), que fará a soma. Retorna 0 para sucesso e valores entre 1 e 4 para erros.
+
+Função: ListaT *buscarLista(ListaP *l, int pos);
+Descrição: Retorna o polinômio de uma dada posição. Retorna NULL em caso de erro. Função importante para fazer a comunicação entre a lista de polinômios e as funções que operam sobre a lista de termos.
+
+Função: ListaT *buscarListaNome(ListaP *l, char *nome);
+Descrição: Procura na lista de termos o polinômio com nome *nome e o retorna, caso a lista não exista, esteja vazia ou o polinômio não seja encontrado a função retorna NULL. Função importante para fazer a comunicação entre a lista de polinômios e as funções que operam sobre a lista de termos.
+
+// Main
+
+Função: void carregar(FILE *fp, ListaP *l);
+Descrição: tenta ler do arquivo, lê nomes de polinômios, insere um polinômio na lista com esse nome, depois busca todos os termos que estão escritos no arquivo, inserindo termo por termo nesse polinômio.
+
+Função: void salvar(ListaP *l);
+Descrição: essa função tem três modos. Ambos se baseiam em iterar pela lista para escrever as informações de um polinômio no arquivo. No modo sobrescrever, o arquivo é limpo, nas outras, o arquivo é aberto como append. O caso de inserir apenas um polinômio é o único que itera apenas uma vez, mas em todos os casos, cada iteração escreve um polinômio no arquivo.
+
+Função: void inicializar(ListaT *l);
+Descrição: segmenta a funcionalidade de inicializar um polinômio.
+
+Função: void inserirTermo(ListaP *l);
+Descrição: essa função apenas segmenta a funcionalidade de inserir um termo em uma lista.
+
+Função: void mostraPol(ListaP *l, char *nome);
+Descrição: essa função permite que seja impresso apenas um polinômio, usando a função mostrarT.
+
+Função: void somarPolinomios(ListaP *l);
+Descrição: essa função configura alguns parâmetros para serem passadas para a função somarPol. Essa função não permite que se insira um nome de um polinômio que já exista.
+
+Função: void Px(ListaP *l);
+Descrição: essa função pergunta um valor de x, e pergunta os nomes dos polinômios que devem ser calculados. Um vetor dinâmico de float guarda os resultados e um vetor dinâmico de strings guarda os nomes passados, permitindo que no final tudo seja mostrado ao usuário. Adicionalmente, essa função mostra qual polinômio tem o maior valor para esse x.
